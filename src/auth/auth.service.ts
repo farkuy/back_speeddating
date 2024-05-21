@@ -26,6 +26,11 @@ export class AuthService {
         return this.generateToken(user)
     }
 
+    async checkAuth(jwt: string) {
+        const decode = this.jwtService.verify(jwt);
+        return this.generateToken(decode);
+    }
+
     private async generateToken(user: User) {
         const payload = {
             email: user.email,
