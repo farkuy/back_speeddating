@@ -1,5 +1,5 @@
-import {Body, Controller, Get, Post} from '@nestjs/common';
-import {CreateUserDto} from "../users/dto/create-user.dto";
+import {Body, Controller, Get, Post, Req, Request} from '@nestjs/common';
+import {CreateUserDto, HeadersReq} from "../users/dto/create-user.dto";
 import {AuthService} from "./auth.service";
 
 @Controller('auth')
@@ -15,8 +15,8 @@ export class AuthController {
         return this.authService.registration(userDto)
     }
 
-    @Get("/auth")
-    checkRegistration(@Body() jwt: string) {
-        return this.authService.checkAuth(jwt)
+    @Get("/checkAuth")
+    checkRegistration(@Req() req: Request & { headers: HeadersReq }) {
+        return this.authService.checkAuth(req)
     }
 }
