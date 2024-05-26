@@ -1,7 +1,8 @@
-import {BelongsToMany, Column, DataType, Model, Table} from "sequelize-typescript";
+import {BelongsToMany, Column, DataType, ForeignKey, HasOne, Model, Table} from "sequelize-typescript";
 import {UserRoles} from "../roles/user-roles.model";
 import {Role} from "../roles/roles.model";
 import {ApiProperty} from "@nestjs/swagger";
+import {UserProfile} from "../user_profile/user_profile.model";
 
 interface UserCreationAttrs {
     email: string;
@@ -27,5 +28,10 @@ export class User extends Model<User, UserCreationAttrs> {
     banReason: boolean;
     @ApiProperty({example: ["ADMIN", "USER"], type: [Role], description: "Роли пользователя"})
     @BelongsToMany(() => Role, () => UserRoles)
-    roles: Role[]
+    roles: Role[];
+
+    @ApiProperty({type: UserProfile, description: "Инфомрация о пользователе"})
+    @HasOne(() => UserProfile)
+    @ForeignKey(() => UserProfile)
+    user_profile: UserProfile;
 }
