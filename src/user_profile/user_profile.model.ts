@@ -1,4 +1,4 @@
-import {Column, DataType, ForeignKey, HasOne, Model, Table} from "sequelize-typescript";
+import {Column, DataType, ForeignKey, BelongsTo, Model, Table} from "sequelize-typescript";
 import {ApiProperty} from "@nestjs/swagger";
 import {User} from "../users/user.model";
 
@@ -37,8 +37,7 @@ export class UserProfile extends Model<UserProfile, UserProfileCreationAttrs> {
     @Column({type: DataType.STRING, allowNull: false})
     about_yourself : string;
 
-    @ApiProperty({type: User, description: 'Профиль пользователя'})
-    @HasOne(() => User)
-    @ForeignKey(() => User)
+    @ApiProperty({type: () => User, description: 'Профиль пользователя'})
+    @BelongsTo(() => User, "userProfileId")
     user: User
 }

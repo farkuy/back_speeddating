@@ -9,7 +9,7 @@ import * as process from "process";
   providers: [AuthService],
   controllers: [AuthController],
   imports: [
-      forwardRef(() =>   UsersModule),
+      forwardRef(() => UsersModule),
       JwtModule.register({
         secret: process.env.PRIVATE_KEY || "SECRET",
         signOptions: {

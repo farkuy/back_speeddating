@@ -1,4 +1,4 @@
-import {BelongsToMany, Column, DataType, ForeignKey, HasOne, Model, Table} from "sequelize-typescript";
+import {BelongsTo, BelongsToMany, Column, DataType, ForeignKey, HasOne, Model, Table} from "sequelize-typescript";
 import {UserRoles} from "../roles/user-roles.model";
 import {Role} from "../roles/roles.model";
 import {ApiProperty} from "@nestjs/swagger";
@@ -31,7 +31,6 @@ export class User extends Model<User, UserCreationAttrs> {
     roles: Role[];
 
     @ApiProperty({type: UserProfile, description: "Инфомрация о пользователе"})
-    @HasOne(() => UserProfile)
-    @ForeignKey(() => UserProfile)
+    @BelongsTo(() => UserProfile, "userProfileId")
     user_profile: UserProfile;
 }
