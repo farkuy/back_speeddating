@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserProfileModule } from './user_profile/user_profile.module';
 import {UserProfile} from "./user_profile/user_profile.model";
 import {UserUserProfile} from "./user_profile/user-user_profile.model";
+import { PreferredTypeModule } from './preferred_type/preferred_type.module';
 
 @Module({
     controllers: [],
@@ -32,6 +33,7 @@ import {UserUserProfile} from "./user_profile/user-user_profile.model";
         RolesModule,
         AuthModule,
         UserProfileModule,
+        PreferredTypeModule,
     ],
 })
 export class AppModule {
