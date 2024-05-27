@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post, Put} from '@nestjs/common';
 import {UserProfileService} from "./user_profile.service";
 import {CreateUserProfile} from "./dto/create_user_profile.dto";
 import {ApiOperation, ApiResponse} from "@nestjs/swagger";
@@ -15,10 +15,17 @@ export class UserProfileController {
         return this.roleService.createProfile(dto);
     }
 
+    @ApiOperation({summary: 'изменение профиля пользователя'})
+    @ApiResponse({status: 200, type: UserProfile})
+    @Put('/:id')
+    changeProfile(@Param('id') id: number, @Body() dto: CreateUserProfile) {
+        return this.roleService.changeProfile(id, dto);
+    }
+
     @ApiOperation({summary: 'получить профиль пользователя'})
     @ApiResponse({status: 200, type: UserProfile})
-    @Get('/:value')
-    getProfile(@Param ('value') value: string) {
-        return this.roleService.getProfile(value);
+    @Get('/:id')
+    getProfile(@Param('id') id: number) {
+        return this.roleService.getProfile(id);
     }
 }

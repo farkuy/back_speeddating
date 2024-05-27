@@ -13,8 +13,29 @@ export class UserProfileService {
         return profile;
     }
 
-    async getProfile(value: string) {
-        const profile = await this.userProfileRepository.findOne({where: {value}});
+
+    async changeProfile(id: number, dto: CreateUserProfile) {
+        const profile = await this.userProfileRepository.findOne({where: {id}});
+
+        if (!profile) {
+            throw new Error("Не удалось найти профиль");
+        }
+
+        profile.sex = dto.sex;
+        profile.age = dto.age;
+        profile.hobbies = dto.hobbies;
+        profile.about_yourself = dto.about_yourself;
+
+        await profile.save();
         return profile;
+    }
+
+    async getProfile(id: number) {
+        try {
+            const profile = await this.userProfileRepository.findOne({where: {id}});
+            return profile;
+        } catch (e) {
+            throw new Error("Не удалось найти профиль")
+        }
     }
 }
