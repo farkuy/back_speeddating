@@ -3,14 +3,14 @@ import {ApiProperty} from "@nestjs/swagger";
 import {User} from "../users/user.model";
 
 
-enum Sex {
+export enum Sex {
     MALE  = "Мужской",
     FEMALE  = "Женский"
 }
 
 interface UserProfileCreationAttrs {
-    sex: string;
-    age: Sex;
+    sex: Sex;
+    age: number;
     hobbies: string [];
     about_yourself: string;
 }
@@ -22,19 +22,19 @@ export class UserProfile extends Model<UserProfile, UserProfileCreationAttrs> {
     id: number;
 
     @ApiProperty({example: 'Мужской', description: 'Пол'})
-    @Column({type: DataType.STRING, allowNull: false})
+    @Column({type: DataType.STRING, allowNull: true})
     sex: Sex;
 
     @ApiProperty({example: 24, description: 'Возраст'})
-    @Column({type: DataType.INTEGER, allowNull: false, validate: {min: 0}})
+    @Column({type: DataType.INTEGER, allowNull: true, validate: {min: 0}})
     age: number;
 
     @ApiProperty({example: ["Спорт", "Музыка", "Что угодно, но не программирование"], description: 'Увлечения'})
-    @Column({type: DataType.ARRAY(DataType.STRING), allowNull: false})
+    @Column({type: DataType.ARRAY(DataType.STRING), allowNull: true})
     hobbies : string [];
 
     @ApiProperty({example: "Не нефор, не альтушка. Я - эталонный скуф", description: 'О себе'})
-    @Column({type: DataType.STRING, allowNull: false})
+    @Column({type: DataType.STRING, allowNull: true})
     about_yourself : string;
 
     @ApiProperty({type: () => User, description: 'Профиль пользователя'})
