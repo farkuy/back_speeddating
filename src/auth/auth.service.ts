@@ -31,12 +31,14 @@ export class AuthService {
         if (!authorization) {
             throw new HttpException('Отсутствует токен в запросе', HttpStatus.UNAUTHORIZED);
         }
-        const jwt = authorization.replace('Bearer ', '');
+        const jwt = authorization.replace('Bearer', '');
         try {
+            console.log(3333, jwt)
             const decode = this.jwtService.verify(jwt)
             return this.generateToken(decode);
         }
         catch (e) {
+            console.log(333, e)
             throw new UnauthorizedException({message: 'Что-то пошло не так, перезайдите в профиль'})
         }
     }
@@ -46,9 +48,9 @@ export class AuthService {
             email: user.email,
             id: user.id,
             roles: user.roles,
-            user_profile_id: user.user_profile.id
+            user_profile_id: user.user_profile.id,
+            user_preferred_id: user.user_preferred.id,
         }
-
         return {
             token: this.jwtService.sign(payload)
         }

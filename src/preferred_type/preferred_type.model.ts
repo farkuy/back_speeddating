@@ -41,6 +41,6 @@ export class Preferred extends Model<Preferred, PreferredCreationAttrs> {
     want_to_see_in_a_partner : string;
 
     @ApiProperty({type: () => User, description: 'Профиль пользователя'})
-    @BelongsTo(() => User, "userProfileId")
+    @BelongsTo(() => User, "userPreferredId")
     user: User
 }
