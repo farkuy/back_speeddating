@@ -6,6 +6,7 @@ import {CreateUserProfile} from "./dto/create_user_profile.dto";
 @Injectable()
 export class UserProfileService {
     constructor (@InjectModel(UserProfile) private userProfileRepository: typeof UserProfile){
+
     }
 
     async createProfile(dto: CreateUserProfile) {

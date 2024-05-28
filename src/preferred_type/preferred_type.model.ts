@@ -1,41 +1,44 @@
-import {Column, DataType, ForeignKey, BelongsTo, Model, Table} from "sequelize-typescript";
+import {BelongsTo, Column, DataType, Model, Table} from "sequelize-typescript";
 import {ApiProperty} from "@nestjs/swagger";
 import {User} from "../users/user.model";
+import {Sex} from "../user_profile/user_profile.model";
 
-
-export enum Sex {
-    MALE  = "Мужской",
-    FEMALE  = "Женский"
+export interface IAgePartner {
+    min_age: number,
+    max_age: number,
 }
 
-interface UserProfileCreationAttrs {
+interface PreferredCreationAttrs {
     sex: Sex;
-    age: number;
+    age: IAgePartner;
     hobbies: string [];
-    about_yourself: string;
+    want_to_see_in_a_partner: string;
 }
 
-@Table({tableName: 'user_profile'})
-export class UserProfile extends Model<UserProfile, UserProfileCreationAttrs> {
+@Table({tableName: 'user_preferred'})
+export class Preferred extends Model<Preferred, PreferredCreationAttrs> {
     @ApiProperty({example: 1, description: 'Уникальный идентификатор'})
     @Column({type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true})
     id: number;
 
-    @ApiProperty({example: 'Мужской', description: 'Пол'})
+    @ApiProperty({example: 'Женский', description: 'Пол'})
     @Column({type: DataType.STRING, allowNull: true})
     sex: Sex;
 
-    @ApiProperty({example: 24, description: 'Возраст'})
+    @ApiProperty({example: {
+            min_age: 18,
+            max_age: 46,
+        }, description: 'Возраст партнера'})
     @Column({type: DataType.INTEGER, allowNull: true, validate: {min: 18}})
-    age: number;
+    age: IAgePartner;
 
     @ApiProperty({example: ["Спорт", "Музыка", "Что угодно, но не программирование"], description: 'Увлечения'})
     @Column({type: DataType.ARRAY(DataType.STRING), allowNull: true})
     hobbies : string [];
 
-    @ApiProperty({example: "Не нефор, не альтушка. Я - эталонный скуф", description: 'О себе'})
+    @ApiProperty({example: "Хочется альтушку тихую", description: 'Что вы хотите от партнера'})
     @Column({type: DataType.STRING, allowNull: true})
-    about_yourself : string;
+    want_to_see_in_a_partner : string;
 
     @ApiProperty({type: () => User, description: 'Профиль пользователя'})
     @BelongsTo(() => User, "userProfileId")

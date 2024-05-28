@@ -9,6 +9,7 @@ import {RolesModule} from "../roles/roles.module";
 import {AuthModule} from "../auth/auth.module";
 import {UserProfile} from "../user_profile/user_profile.model";
 import {UserProfileModule} from "../user_profile/user_profile.module";
+import {PreferredTypeModule} from "../preferred_type/preferred_type.module";
 
 @Module({
   controllers: [UsersController],
@@ -18,6 +19,7 @@ import {UserProfileModule} from "../user_profile/user_profile.module";
       RolesModule,
       forwardRef(() => AuthModule),
       forwardRef(() => UserProfileModule),
+      forwardRef(() => PreferredTypeModule),
   ],
     exports: [
         UsersService,

@@ -11,6 +11,7 @@ import { UserProfileModule } from './user_profile/user_profile.module';
 import {UserProfile} from "./user_profile/user_profile.model";
 import {UserUserProfile} from "./user_profile/user-user_profile.model";
 import { PreferredTypeModule } from './preferred_type/preferred_type.module';
+import {Preferred} from "./preferred_type/preferred_type.model";
 
 @Module({
     controllers: [],
@@ -26,7 +27,7 @@ import { PreferredTypeModule } from './preferred_type/preferred_type.module';
             username: process.env.POSTGRES_USER,
             password: process.env.POSTGRESS_PASSWORD,
             database: process.env.POSTGRES_DB,
-            models: [User, Role, UserRoles, UserProfile, UserUserProfile],
+            models: [User, Role, UserRoles, UserProfile, UserUserProfile, Preferred],
             autoLoadModels: true,
         }),
         UsersModule,

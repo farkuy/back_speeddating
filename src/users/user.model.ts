@@ -3,6 +3,7 @@ import {UserRoles} from "../roles/user-roles.model";
 import {Role} from "../roles/roles.model";
 import {ApiProperty} from "@nestjs/swagger";
 import {UserProfile} from "../user_profile/user_profile.model";
+import {Preferred} from "../preferred_type/preferred_type.model";
 
 interface UserCreationAttrs {
     email: string;
@@ -33,4 +34,8 @@ export class User extends Model<User, UserCreationAttrs> {
     @ApiProperty({type: UserProfile, description: "Инфомрация о пользователе"})
     @BelongsTo(() => UserProfile, "userProfileId")
     user_profile: UserProfile;
+
+    @ApiProperty({type: Preferred, description: "Инфомрация о пользователе"})
+    @BelongsTo(() => Preferred, "userPreferredId")
+    user_preferred: Preferred;
 }
