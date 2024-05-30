@@ -28,14 +28,18 @@ export class AuthService {
 
     async checkAuth(req: Request & { headers: HeadersReq }) {
         const authorization = req.headers.authorization;
+        console.log(222, req.headers)
         if (!authorization) {
             throw new HttpException('Отсутствует токен в запросе', HttpStatus.UNAUTHORIZED);
         }
-        const jwt = authorization.replace('Bearer', '');
         try {
-            console.log(3333, jwt)
-            const decode = this.jwtService.verify(jwt)
-            return this.generateToken(decode);
+            const bearer = authorization.split(' ')[0];
+            const token = authorization.split(' ')[1];
+            if (bearer !== "Bearer" || !token) {
+                throw new UnauthorizedException({message: "Пользователь не авторизован"})
+            }
+            const user = this.jwtService.verify(token);
+            return this.generateToken(user, user.user_profile_id, user.user_preferred_id);
         }
         catch (e) {
             console.log(333, e)
@@ -43,13 +47,13 @@ export class AuthService {
         }
     }
 
-    private async generateToken(user: User) {
+    private async generateToken(user: User, user_profile_id?: number, user_preferred_id?: number) {
         const payload = {
             email: user.email,
             id: user.id,
             roles: user.roles,
-            user_profile_id: user.user_profile.id,
-            user_preferred_id: user.user_preferred.id,
+            user_profile_id: user_profile_id || user.user_profile.id,
+            user_preferred_id:  user_preferred_id || user.user_preferred.id,
         }
         return {
             token: this.jwtService.sign(payload)
